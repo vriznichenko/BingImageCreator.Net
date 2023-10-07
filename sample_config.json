@@ -1,0 +1,52 @@
+{
+    "input":
+    {
+        "prompt": "{paste your prompt here}",
+        "base_url": "https://www.bing.com",
+        "regexp":
+        {
+            "pattern": "src=\"([^\"]+)\""
+        },
+        "headers": [
+            {
+                "name": "Accept",
+                "value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+            },
+            {
+                "name": "X-Forwarded-For",
+                "value": "13.104.0.0/14"
+            },
+            {
+                "name": "Origin",
+                "value": "https://www.bing.com"
+            },
+            {
+                "name": "Referrer",
+                "value": "https://www.bing.com/images/create/"
+            },
+            {
+                "name": "Cache-Control",
+                "value": "max-age=0"
+            },
+            {
+                "name": "Accept-Language",
+                "value": "en-US,en;q=0.9"
+            }
+        ],
+        "cookies": [
+            {
+                "name": "_U",
+                "value": "{paste your auth cookie here}"
+            },
+            {
+                "name": "SRCHHPGUSR",
+                "value": "NRSLT=50"
+            }
+        ]
+    },
+    "output":
+    {
+        "output_dir": "{C:/somepath/output}",
+        "temp_dir": "{C:/somepath/temp}"
+    }
+}
