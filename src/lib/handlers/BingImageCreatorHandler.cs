@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 using BingImageCreatorDotnet.Lib.Config;
@@ -12,8 +13,6 @@ public sealed class BingImageCreatorHandler
     private readonly ILogger<BingImageCreatorHandler> logger;
     private readonly IConfigReader configReader;
     private readonly IConfigMapper configMapper;
-
-    private const int maxPollingRequestRetries = 100;
 
     public BingImageCreatorHandler(
         ILogger<BingImageCreatorHandler> logger,
@@ -53,7 +52,7 @@ public sealed class BingImageCreatorHandler
                 HttpMethod.Get,
                 response => string.IsNullOrEmpty(response) is true || response.Contains("Pending"),
                 new CancellationToken(),
-                maxPollingRequestRetries);
+                config.Input.PollingMaxRetries);
             logger.LogInformation($"Polling response recieved. Status Code: {pollingResponse.StatusCode}");
 
             var pollingResponseContent = await pollingResponse.Content.ReadAsStringAsync();
@@ -76,6 +75,10 @@ public sealed class BingImageCreatorHandler
             logger.LogInformation($"Files downloaded. Output directory: {downloadDirectoryName}");
             File.Delete($"{config.Output.TempDir}/temp.html");
         }
+        catch (JsonException jsonException)
+        {
+            HandleException(jsonException.ToString(), downloadDirectoryName);
+        }
         catch (BingClientException bingClientException)
         {
             HandleException(bingClientException.ToString(), downloadDirectoryName);
@@ -83,6 +86,10 @@ public sealed class BingImageCreatorHandler
         catch (HttpDownloaderException httpDownloaderException)
         {
             HandleException(httpDownloaderException.ToString(), downloadDirectoryName);
+        }
+        catch (Exception exception)
+        {
+            HandleException(exception.ToString(), downloadDirectoryName);
         }
     }
 

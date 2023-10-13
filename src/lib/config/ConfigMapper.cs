@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace BingImageCreatorDotnet.Lib.Config;
 
 public interface IConfigMapper
@@ -13,9 +15,10 @@ public sealed class ConfigMapper : IConfigMapper
             {
                 Input = new()
                 {
-                    Prompt = configDto?.Input?.Prompt ?? string.Empty,
-                    BaseUrl = configDto?.Input?.BaseUrl ?? string.Empty,
-                    Regexp = ParseRegex(configDto?.Input?.Regexp ?? new()),
+                    Prompt = configDto?.Input?.Prompt ?? throw new JsonException("Missing required field 'prompt' in config."),
+                    BaseUrl = configDto?.Input?.BaseUrl ?? "https://www.bing.com",
+                    PollingMaxRetries = configDto?.Input?.PollingMaxRetries ?? 100,
+                    Regexp = ParseRegex(configDto?.Input?.Regexp ?? new() { Pattern = "src=\"([^\"]+)\"" }),
                     HeaderConfigs = ParseHeaders(configDto?.Input?.HeaderConfigs ?? Array.Empty<HeaderConfigDto>())
                         .ToList().AsReadOnly(),
                     CookieConfigs = ParseCookies(configDto?.Input?.CookieConfigs ?? Array.Empty<CookieConfigDto>())
@@ -24,11 +27,11 @@ public sealed class ConfigMapper : IConfigMapper
 
                 Output = new()
                 {
-                    OutputDir = configDto?.Output?.OutputDir ?? string.Empty,
-                    TempDir = configDto?.Output?.TempDir ?? string.Empty,
+                    OutputDir = configDto?.Output?.OutputDir ?? Directory.GetCurrentDirectory(),
+                    TempDir = configDto?.Output?.TempDir ?? Directory.GetCurrentDirectory(),
                 },
             }
-        : new();
+        : throw new JsonException("Empty config json file.");
 
     private static Regexp ParseRegex(RegexpDto regexDto)
         => new()

@@ -3,6 +3,7 @@
     {
         "prompt": "{paste your prompt here}",
         "base_url": "https://www.bing.com",
+        "polling_max_retries": 100,
         "regexp":
         {
             "pattern": "src=\"([^\"]+)\""

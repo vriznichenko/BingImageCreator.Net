@@ -10,6 +10,7 @@ public sealed record Input
 {
     public string Prompt { get; init; } = string.Empty;
     public string BaseUrl { get; init; } = string.Empty;
+    public int PollingMaxRetries { get; init; }
     public Regexp Regexp { get; init; } = new();
     public IReadOnlyCollection<HeaderConfig> HeaderConfigs { get; init; }
         = Array.Empty<HeaderConfig>();

@@ -52,12 +52,17 @@ public sealed class BingClient : IBingClient
         try
         {
             responseMessage = await httpClient.SendAsync(request, cancellationToken);
+
+            if (responseMessage.StatusCode is not HttpStatusCode.OK)
+            {
+                throw new BingClientException($"Request error. Code: {responseMessage.StatusCode}; Content: {responseMessage.Content}");
+            }
         }
         catch (TaskCanceledException taskCanceledException)
         {
             if(taskCanceledException.CancellationToken != cancellationToken)
             {
-                throw new BingClientException("Request error.");
+                throw new BingClientException("Request error: task cancellated.");
             }
         }
 
