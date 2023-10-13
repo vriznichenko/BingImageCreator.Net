@@ -1,7 +1,5 @@
 # BingImageCreator.Net
 
-[![main branch tests](https://github.com/vriznichenko/BingImageCreator.Net/actions/workflows/tests.yml/badge.svg?branch=main&event=workflow_run)](https://github.com/vriznichenko/BingImageCreator.Net/actions/workflows/tests.yml)
-
 BingImageCreator.Net is Bing Image Creator cli tool inspired by https://github.com/acheong08/BingImageCreator repo implemented on the .Net platform.
 
 ```usage: create config.json file in the same directory as sample_config.json. Then edit config json with next rules:```
