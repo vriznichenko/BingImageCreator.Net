@@ -1,9 +1,6 @@
 ﻿// TODOS
 // - response error messages handling
 //     : catch errors in responses and write them to exception.json at corresponding directory
-// - add unit tests
-// - add tests/ build/ pack workflows
-// - add user manual
 
 using BingImageCreatorDotnet.Lib.Config;
 using BingImageCreatorDotnet.Lib.Handlers;
