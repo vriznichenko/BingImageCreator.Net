@@ -23,6 +23,10 @@ public sealed record InputDto
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? BaseUrl { get; init; }
 
+    [JsonPropertyName("polling_max_retries")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public int? PollingMaxRetries { get; init; }
+
     [JsonPropertyName("regexp")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public RegexpDto? Regexp { get; init; }
