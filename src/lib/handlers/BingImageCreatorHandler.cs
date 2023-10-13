@@ -26,7 +26,7 @@ public sealed class BingImageCreatorHandler
 
     public async Task RunTask()
     {
-        var configDto = await configReader.ReadAsync("D:\\Projects\\BingImageCreator.Net\\config.json");
+        var configDto = await configReader.ReadAsync(Directory.GetCurrentDirectory() + "\\config.json");
         var config = configMapper.Map(configDto);
         var downloadDirectoryName = $"{config.Output.OutputDir}/{config.Input.Prompt}_{DateTime.UtcNow:yyyy_MM_dd_HH_mm_ss}";
         Directory.CreateDirectory(downloadDirectoryName);
@@ -74,6 +74,7 @@ public sealed class BingImageCreatorHandler
             await httpDownloader.DownloadAndSaveAsync(links, downloadDirectoryName, "jpg");
             logger.LogInformation($"Files downloaded. Output directory: {downloadDirectoryName}");
             File.Delete($"{config.Output.TempDir}/temp.html");
+            Directory.Delete(config.Output.TempDir);
         }
         catch (JsonException jsonException)
         {
